@@ -1,13 +1,26 @@
 
-export default function Modal() {
+interface ModalProps {
+    isOpen: boolean;
+    contentType: string;
+    closeModal: () => void;
+}
 
-    function closeModal() {
-        //여기에 css로 모달창을 닫는 코드
-        console.log('close modal')
-    }
+export default function Modal({ isOpen, contentType, closeModal }: ModalProps) {
+    if (!isOpen) return null;
 
     return (
-        <div className="modal-background" onClick={closeModal}>
+        <div id="modal-background">
+            <div id="contents">
+                <div id="login">
+                    login contents
+                </div>
+                <div id="modify">
+                    modify contents
+                </div>
+                <div id="contents">
+                    book contents
+                </div>
+            </div>
         </div>
     )
 }

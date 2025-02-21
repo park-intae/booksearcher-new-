@@ -8,6 +8,7 @@ interface Book {
 
 interface BookListProps {
     books: Book[];
+    openModal: (type: string) => void;
 }
 
 export type { Book, BookListProps };
