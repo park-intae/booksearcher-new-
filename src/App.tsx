@@ -38,11 +38,12 @@ function App() {
           <div id='search'>search bar</div>
           <button onClick={() => openModal('modifyButton')}>
             수정
-            <Modal isOpen={isModalOpen} contentType={contentType} closeModal={closeModal} />
           </button>
         </div>
         <div id='pagenation'></div>
       </main>
+
+      {isModalOpen && <Modal isOpen={isModalOpen} contentType={contentType} closeModal={closeModal} />}
     </div>
   );
 }
