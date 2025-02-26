@@ -1,6 +1,11 @@
 import React, { useMemo } from 'react';
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
-import type { Book, BookListProps } from '../type/interface';
+import type { Book } from '../type/interface';
+
+interface BookListProps {
+    books: Book[];
+    openModal: (type: string, book?: Book) => void;
+}
 
 const BookList: React.FC<BookListProps> = ({ books, openModal }) => {
 
@@ -39,10 +44,14 @@ const BookList: React.FC<BookListProps> = ({ books, openModal }) => {
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                 </td>
                             ))}
+                            <button onClick={() => { openModal('modifyButton', row.original) }}>
+                                수정
+                            </button>
                         </tr>
                     ))}
                 </tbody>
             </table>
+
         </div>
     );
 }

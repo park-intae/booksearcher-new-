@@ -13,15 +13,19 @@ function App() {
     { id: 4, title: "책 4", author: ["작가 D"], publisher: "출판사 D", stock: 7 },
     { id: 5, title: "책 5", author: ["작가 E"], publisher: "출판사 E", stock: 3 },]
 
-  //Modal
+  //Modal state management
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [contentType, setContentType] = useState("");
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
 
-  const openModal = (type: string) => {
+  //Modal open console
+  const openModal = (type: string, book?: Book) => {
     setContentType(type);
     setIsModalOpen(true);
+    if (book) setSelectedBook(book);
   };
 
+  //Modal close console
   const closeModal = () => {
     setIsModalOpen(false);
   }
@@ -36,14 +40,11 @@ function App() {
         <div id='board'>
           <BookList books={books} openModal={openModal} />
           <div id='search'>search bar</div>
-          <button onClick={() => openModal('modifyButton')}>
-            수정
-          </button>
         </div>
         <div id='pagenation'></div>
       </main>
 
-      {isModalOpen && <Modal isOpen={isModalOpen} contentType={contentType} closeModal={closeModal} />}
+      {isModalOpen && <Modal isOpen={isModalOpen} contentType={contentType} closeModal={closeModal} book={selectedBook} />}
     </div>
   );
 }

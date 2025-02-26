@@ -6,9 +6,4 @@ interface Book {
     stock: number;
 }
 
-interface BookListProps {
-    books: Book[];
-    openModal: (type: string) => void;
-}
-
-export type { Book, BookListProps };
+export type { Book };
