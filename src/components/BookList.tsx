@@ -38,15 +38,17 @@ const BookList: React.FC<BookListProps> = ({ books, openModal }) => {
                 </thead>
                 <tbody>
                     {table.getRowModel().rows.map(row => (
-                        <tr key={row.id} onClick={() => openModal('bookDetails')}>
+                        <tr key={row.id} onClick={() => {
+                            openModal('bookContents', row.original);
+                        }}>
                             {row.getVisibleCells().map(cell => (
                                 <td key={cell.id}>
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                 </td>
                             ))}
-                            <button onClick={() => { openModal('modifyButton', row.original) }}>
+                            {/* <button onClick={() => { openModal('modifyButton', row.original) }}>
                                 수정
-                            </button>
+                            </button> 수정 기능 만들면 BookContents 내부로 보낼 예정 */}
                         </tr>
                     ))}
                 </tbody>

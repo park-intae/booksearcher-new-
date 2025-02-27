@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Modify from "../board/Modify";
 import { Book } from "../../type/interface";
+import BookContents from "../board/BookContents";
 
 interface ModalProps {
     isOpen: boolean;
@@ -29,15 +29,20 @@ export default function Modal({ isOpen, contentType, closeModal, book }: ModalPr
                     <div className="modal-section">
                         ID : <input placeholder="id입력" value={identify} onChange={(e) => setIdentify(e.target.value)} />
                         <br />
-                        PassWord: <input placeholder="패스워드 입력" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        PassWord: <input type="password" placeholder="패스워드 입력" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <br />
+                        <button onClick={handleLogin}>Login</button>
                     </div>
                 )}
-                {contentType === 'modifyButton' && (
+                {/* {contentType === 'modifyButton' && book && (
                     <Modify book={book} onClose={closeModal} />
-                )}
-                {contentType === 'bookContents' && (
-                    <div className="modal-section"></div>
-                )}
+                )} 수정 기능 만들면 BookContents 내부로 보낼 예정*/}
+                {contentType === 'bookContents' && book ? (
+                    <BookContents book={book} onClose={closeModal} />
+                ) : contentType === "bookContents" && !book ? (
+                    <p>책 선택에 오류가 있습니다</p>
+                ) : null}
+
             </div>
         </div>
     )

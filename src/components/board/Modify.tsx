@@ -6,6 +6,8 @@ interface ModifyProps {
 }
 
 const Modify: React.FC<ModifyProps> = ({ book, onClose }) => {
+    console.log("Modify 호출")
+
     if (!book) return <div></div>;
 
     return (

@@ -21,13 +21,14 @@ function App() {
   //Modal open console
   const openModal = (type: string, book?: Book) => {
     setContentType(type);
+    setSelectedBook(book ?? null); // book없으면 null로
     setIsModalOpen(true);
-    if (book) setSelectedBook(book);
   };
 
   //Modal close console
   const closeModal = () => {
     setIsModalOpen(false);
+    setSelectedBook(null); // 모달 닫으면서 초기화
   }
 
 
