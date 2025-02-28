@@ -45,7 +45,7 @@ function App() {
         <div id='pagenation'></div>
       </main>
 
-      {isModalOpen && <Modal isOpen={isModalOpen} contentType={contentType} closeModal={closeModal} book={selectedBook} />}
+      {isModalOpen && <Modal isOpen={isModalOpen} contentType={contentType} openModal={openModal} closeModal={closeModal} book={selectedBook} />}
     </div>
   );
 }

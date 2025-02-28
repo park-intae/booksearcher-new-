@@ -3,10 +3,10 @@ import { Book } from "../../type/interface";
 interface ContentsProps {
     book: Book | null;
     onClose: () => void;
+    openModal: (type: string, book?: Book) => void;
 }
 
-const BookContents: React.FC<ContentsProps> = ({ book, onClose }) => {
-
+const BookContents: React.FC<ContentsProps> = ({ book, openModal, onClose }) => {
     if (!book) return <div></div>;
 
     return (
@@ -16,6 +16,9 @@ const BookContents: React.FC<ContentsProps> = ({ book, onClose }) => {
             저자 : {book.author}<br />
             출판사 : {book.publisher}<br />
             재고 : {book.stock}<br />
+            <button onClick={() => { onClose(); openModal('modifyButton', book); }}>
+                수정
+            </button>
         </div>
     )
 }
