@@ -1,24 +1,23 @@
 import { useState } from "react";
 import type { Book } from "../../type/interface";
 
-interface ModifyProps {
-    book: Book | null;
+interface AddProps {
     onClose: () => void;
     onSave: (updatedBook: Book) => void;
+    nextId: number;
 }
 
-const Modify: React.FC<ModifyProps> = ({ book, onClose, onSave }) => {
+const Add: React.FC<AddProps> = ({ onClose, onSave, nextId }) => {
     const defaultBook: Book = { id: 0, title: "", author: [], publisher: "", stock: 0 };
-    const currentBook = book ?? defaultBook;
 
-    const [title, setTitle] = useState(currentBook.title);
-    const [author, setAuthor] = useState(currentBook.author ? currentBook.author.join(",") : "");
-    const [publisher, setPublisehr] = useState(currentBook.publisher);
-    const [stock, setStock] = useState(currentBook.stock.toString());
+    const [title, setTitle] = useState("");
+    const [author, setAuthor] = useState("");
+    const [publisher, setPublisehr] = useState("");
+    const [stock, setStock] = useState("0");
 
     const saveHandler = () => {
         const updatedBook: Book = {
-            ...currentBook,
+            id: nextId,
             title,
             author: author ? author.split(",").map(name => name.trim()) : [],
             publisher,
@@ -30,8 +29,8 @@ const Modify: React.FC<ModifyProps> = ({ book, onClose, onSave }) => {
 
     return (
         <div>
-            <h2>책 정보 수정</h2>
-            책 제목 : <input type="text" value={title} placeholder="새로운 제목 입력" onChange={(e) => setTitle(e.target.value)} /><br />
+            <h2>책 추가</h2>
+            책 제목 : <input type="text" value={title} placeholder="제목 입력" onChange={(e) => setTitle(e.target.value)} /><br />
             저자 : <input type="text" value={author} placeholder="저자 입력" onChange={(e) => setAuthor(e.target.value)} /><br />
             출판사 : <input type="text" value={publisher} placeholder="출판사 입력" onChange={(e) => setPublisehr(e.target.value)} /><br />
             재고 : <input type="number" value={stock} placeholder="재고 입력" onChange={(e) => setStock(e.target.value)} /><br />
@@ -41,4 +40,4 @@ const Modify: React.FC<ModifyProps> = ({ book, onClose, onSave }) => {
     );
 }
 
-export default Modify
+export default Add

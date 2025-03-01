@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Book } from "../../type/interface";
 import BookContents from "../board/BookContents";
 import Modify from "../board/Modify";
+import Add from "../board/Add";
 
 interface ModalProps {
     isOpen: boolean;
@@ -9,9 +10,10 @@ interface ModalProps {
     closeModal: () => void;
     openModal: (type: string, book?: Book) => void;
     book: Book | null;
+    onSave: (updatedBook: Book) => void;
 }
 
-export default function Modal({ isOpen, contentType, closeModal, openModal, book }: ModalProps) {
+export default function Modal({ isOpen, contentType, closeModal, openModal, onSave, book }: ModalProps) {
     const [identify, setIdentify] = useState("");
     const [password, setPassword] = useState("");
     console.log('Modal 호출 - contentType:', contentType);
@@ -44,7 +46,11 @@ export default function Modal({ isOpen, contentType, closeModal, openModal, book
                 ) : null}
                 {/* 수정 */}
                 {contentType === 'modifyButton' && book && (
-                    <Modify book={book} onClose={closeModal} />
+                    <Modify book={book} onClose={closeModal} onSave={onSave} />
+                )}
+                {/* 추가 */}
+                {contentType === 'AddButton' && (
+                    <Add onClose={closeModal} onSave={onSave} />
                 )}
 
             </div>
