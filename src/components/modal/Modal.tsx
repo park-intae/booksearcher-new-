@@ -11,9 +11,13 @@ interface ModalProps {
     openModal: (type: string, book?: Book) => void;
     book: Book | null;
     onSave: (updatedBook: Book) => void;
+    onAdd: (newBook: Book) => void;
+    nextId: number;
 }
 
-export default function Modal({ isOpen, contentType, closeModal, openModal, onSave, book }: ModalProps) {
+export default function Modal({ isOpen, contentType, closeModal, openModal, onSave, onAdd, book, nextId }: ModalProps) {
+    console.log("📢 Modal 렌더링됨 - isOpen:", isOpen, "contentType:", contentType);
+
     const [identify, setIdentify] = useState("");
     const [password, setPassword] = useState("");
     console.log('Modal 호출 - contentType:', contentType);
@@ -50,7 +54,7 @@ export default function Modal({ isOpen, contentType, closeModal, openModal, onSa
                 )}
                 {/* 추가 */}
                 {contentType === 'AddButton' && (
-                    <Add onClose={closeModal} onSave={onSave} />
+                    <Add onClose={closeModal} onAdd={onAdd} nextId={nextId} />
                 )}
 
             </div>

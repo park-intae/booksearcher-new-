@@ -13,8 +13,8 @@ function App() {
     { id: 4, title: "책 4", author: ["작가 D"], publisher: "출판사 D", stock: 7 },
     { id: 5, title: "책 5", author: ["작가 E"], publisher: "출판사 E", stock: 3 },])
 
-  //useState
-  const [nextId, setNextId] = useState(1);
+  //Add book useRef
+  const [nextId, setNextId] = useState(6);
 
   //Modal state management
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,6 +23,7 @@ function App() {
 
   //Modal open console
   const openModal = (type: string, book?: Book) => {
+    console.log("📢 모달 열기 요청됨:", type, book);
     setContentType(type);
     setSelectedBook(book ?? null); // book없으면 null로
     setIsModalOpen(true);
@@ -49,7 +50,7 @@ function App() {
   return (
     <div>
       <header>
-        {/* 로그인 버튼튼 */}
+        {/* 로그인 버튼 */}
         <button onClick={() => openModal('loginButton')}>login</button>
       </header>
       <main>
@@ -64,7 +65,7 @@ function App() {
         <div id='pagenation'></div>
       </main>
       {/* 모달 */}
-      {isModalOpen && <Modal isOpen={isModalOpen} contentType={contentType} openModal={openModal} closeModal={closeModal} book={selectedBook} onSave={handleSaveBook} />}
+      {isModalOpen && <Modal isOpen={isModalOpen} contentType={contentType} openModal={openModal} closeModal={closeModal} book={selectedBook} onSave={handleSaveBook} onAdd={handleAddBook} nextId={nextId} />}
     </div>
   );
 }
