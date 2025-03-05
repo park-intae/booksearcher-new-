@@ -3,6 +3,7 @@ import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack
 import type { Book } from '../type/interface';
 import Pagination from './board/Pagination';
 
+
 interface BookListProps {
     books: Book[];
     openModal: (type: string, book?: Book) => void;
@@ -12,15 +13,9 @@ const BookList: React.FC<BookListProps> = ({ books, openModal }) => {
     const [currentPage, setCurrentPage] = React.useState(1);
     const booksPerPage = 5; // 페이지당 책 수
 
-    // 책 정렬
     const sortedBooks = React.useMemo(() => {
         return [...books].sort((a, b) => a.id - b.id);
     }, [books]);
-
-    //
-    const indexOfLastBook = currentPage * booksPerPage;
-    const indexOfFirstBook = indexOfLastBook - booksPerPage;
-    const currentBooks = sortedBooks.slice(indexOfFirstBook, indexOfLastBook);
 
     const columns = useMemo<ColumnDef<Book, any>[]>(() => [
         { header: '제목', accessorKey: 'title' },
@@ -29,7 +24,7 @@ const BookList: React.FC<BookListProps> = ({ books, openModal }) => {
         { header: '재고', accessorKey: 'stock' },
     ], []);
 
-    const table = useReactTable({ data: currentBooks, columns, getCoreRowModel: getCoreRowModel(), });
+    const table = useReactTable({ data: sortedBooks, columns, getCoreRowModel: getCoreRowModel(), });
 
     return (
         <div id='booklist'>
