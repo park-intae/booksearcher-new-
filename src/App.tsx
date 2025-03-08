@@ -3,6 +3,7 @@ import './App.css';
 import BookList from './components/BookList';
 import Modal from './components/modal/Modal';
 import type { Book } from './type/interface';
+import Search from './components/board/Search';
 
 function App() {
   //Dummyfile
@@ -45,6 +46,15 @@ function App() {
     setNextId(prevId => prevId + 1);
   }
 
+  //Search State Management
+  const [searchKey, setSearchKey] = useState('title');
+  const [searchValue, setSearchValue] = useState('');
+
+  //Search
+  const onSearch = (type: string, keyword: string) => {
+    setSearchKey(type);
+    setSearchValue(keyword);
+  }
 
   return (
     <div>
@@ -57,7 +67,7 @@ function App() {
         <div id='board'>
           <BookList books={books} openModal={openModal} />
           {/* 검색, 추가 */}
-          <div id='search'>search bar</div>
+          <Search onSearch={onSearch} />
           <button onClick={() => openModal('AddButton')}>추가</button>
         </div>
         {/* 페이지네이션 */}
