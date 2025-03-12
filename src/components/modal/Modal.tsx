@@ -15,7 +15,7 @@ interface ModalProps {
     onAdd: (book: Book) => void;
 }
 
-export default function Modal({ isOpen, contentType, closeModal, openModal, onSave, book, nextId }: ModalProps) {
+export default function Modal({ isOpen, contentType, closeModal, openModal, onSave, onAdd, book, nextId }: ModalProps) {
     const [identify, setIdentify] = useState("");
     const [password, setPassword] = useState("");
     console.log('Modal 호출 - contentType:', contentType);
@@ -25,11 +25,17 @@ export default function Modal({ isOpen, contentType, closeModal, openModal, onSa
         closeModal();
     }
 
+    const handleBackgroundClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (e.target === e.currentTarget) {
+            closeModal();
+        }
+    };
+
     if (!isOpen) return null;
     return (
-        <div id="modal-background" onClick={closeModal}>
+        <div id="modal-background" onClick={handleBackgroundClick}>
             <div id="contents" onClick={(e) => e.stopPropagation()}>
-                <button onClick={closeModal} className="close-byn">❌</button>
+                <button onClick={closeModal} className="close-btn">❌</button>
                 {/* 로그인 */}
                 {contentType === 'loginButton' && (
                     <div className="modal-section">
@@ -41,18 +47,17 @@ export default function Modal({ isOpen, contentType, closeModal, openModal, onSa
                     </div>
                 )}
                 {/* 책 내용 */}
-                {contentType === 'bookContents' && book ? (
-                    <BookContents book={book} openModal={openModal} onClose={closeModal} />
-                ) : contentType === "bookContents" && !book ? (
-                    <p>책 선택에 오류가 있습니다</p>
-                ) : null}
+                {contentType === 'bookContents' && (
+                    book ? <BookContents book={book} openModal={openModal} onClose={closeModal} />
+                        : <p>책 선택에 오류가 있습니다</p>
+                )}
                 {/* 수정 */}
                 {contentType === 'modifyButton' && book && (
                     <Modify book={book} onClose={closeModal} onSave={onSave} />
                 )}
                 {/* 추가 */}
                 {contentType === 'AddButton' && (
-                    <Add onClose={closeModal} onSave={onSave} nextId={nextId} />
+                    <Add onSave={onSave} onClose={closeModal} onAdd={onAdd} nextId={nextId} />
                 )}
 
             </div>

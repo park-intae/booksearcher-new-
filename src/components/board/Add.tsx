@@ -4,10 +4,11 @@ import type { Book } from "../../type/interface";
 interface AddProps {
     onClose: () => void;
     onSave: (updatedBook: Book) => void;
+    onAdd: (book: Book) => void;
     nextId: number;
 }
 
-const Add: React.FC<AddProps> = ({ onClose, onSave, nextId }) => {
+const Add: React.FC<AddProps> = ({ onClose, onSave, onAdd, nextId }) => {
 
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
@@ -15,14 +16,15 @@ const Add: React.FC<AddProps> = ({ onClose, onSave, nextId }) => {
     const [stock, setStock] = useState("0");
 
     const saveHandler = () => {
-        const updatedBook: Book = {
+        const newBook: Book = {
             id: nextId,
             title,
             author: author ? author.split(",").map(name => name.trim()) : [],
             publisher,
             stock: parseInt(stock, 10),
         };
-        onSave(updatedBook);
+        onAdd(newBook);
+        onSave(newBook);
         onClose();
     }
 

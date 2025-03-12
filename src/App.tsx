@@ -47,14 +47,17 @@ function App() {
   }
 
   //Search State Management
-  const [searchKey, setSearchKey] = useState('title');
+  const [searchKey, setSearchKey] = useState<keyof Book>('title');
   const [searchValue, setSearchValue] = useState('');
 
   //Search
-  const onSearch = (type: string, keyword: string) => {
+  const onSearch = (type: keyof Book, keyword: string) => {
     setSearchKey(type);
     setSearchValue(keyword);
   }
+  //Search filter
+  const filteredBooks = books.filter(book =>
+    book[searchKey]?.toString().toLowerCase().includes(searchValue.toLowerCase()));
 
   return (
     <div>
@@ -65,13 +68,11 @@ function App() {
       <main>
         {/* 게시판 */}
         <div id='board'>
-          <BookList books={books} openModal={openModal} />
+          <BookList books={filteredBooks} openModal={openModal} />
           {/* 검색, 추가 */}
           <Search onSearch={onSearch} />
-          <button onClick={() => openModal('AddButton')}>추가</button>
+          <button onClick={() => openModal('addButton')}>추가</button>
         </div>
-        {/* 페이지네이션 */}
-        <div id='pagenation'></div>
       </main>
       {/* 모달 */}
       {isModalOpen &&
