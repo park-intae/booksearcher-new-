@@ -50,9 +50,6 @@ const BookList: React.FC<BookListProps> = ({ books, openModal }) => {
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                 </td>
                             ))}
-                            {/* <button onClick={() => { openModal('modifyButton', row.original) }}>
-                                수정
-                            </button> 수정 기능 만들면 BookContents 내부로 보낼 예정 */}
                         </tr>
                     ))}
                 </tbody>

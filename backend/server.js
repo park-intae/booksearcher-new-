@@ -1,10 +1,27 @@
-const express = require("express");
-const cors = require("cors");
 require("dotenv").config();
+const express = require("express");
+const mysql = require("mysql");
+const cors = require("cors");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+//MySQL 연결
+const db = mysql.createConnection({
+    host: process.env.DB_HOST || "localhost",
+    user: process.env.DB_USER || "root",
+    password: process.env.DB_PASS || "",
+    database: process.env.DB_NAME || "booksearcher",
+});
+
+db.connect((err) => {
+    if (err) {
+        console.error("My SQL 연결 실패 : ", err);
+        return;
+    }
+    console.log("MySQL 연결 성공");
+})
 
 // API로 도서 목록 가져오기
 app.get("/books", async (req, res) => {
@@ -26,6 +43,7 @@ app.post("/books", (req, res) => {
     );
 })
 
-app.listen(5000, () => {
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
     console.log("Backend running on port 5000");
 });
