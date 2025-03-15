@@ -38,7 +38,7 @@ const BookList: React.FC<BookListProps> = ({ books, openModal, onDelete }) => {
                 }
             }}>삭제</button>
         },
-    ], []);
+    ], [onDelete]);
 
     const table = useReactTable({ data: sortedBooks, columns, getCoreRowModel: getCoreRowModel(), });
 
@@ -66,15 +66,6 @@ const BookList: React.FC<BookListProps> = ({ books, openModal, onDelete }) => {
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                 </td>
                             ))}
-                            <td>
-                                <button onClick={(e) => {
-                                    e.stopPropagation();
-                                    const id = row.original.id;
-                                    if (id !== undefined) {
-                                        onDelete(id);
-                                    }
-                                }}>삭제</button>
-                            </td>
                         </tr>
                     ))}
                 </tbody>

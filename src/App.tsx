@@ -14,7 +14,7 @@ function App() {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/books");
+        const response = await axios.get("http://localhost:5000/books");
         setBooks(response.data);
       } catch (error) {
         console.log("책 목록을 가져오지 못했습니다. 오류코드 :", error);
@@ -44,7 +44,7 @@ function App() {
   //Save Book
   const handleSaveBook = async (updatedBook: Book) => {
     try {
-      await axios.put(`http://localhost:3001/books/${updatedBook.id}`, updatedBook);
+      await axios.put(`http://localhost:5000/books/${updatedBook.id}`, updatedBook);
       setBooks(prevBooks => prevBooks.map(book => book.id === updatedBook.id ? updatedBook : book));
     } catch (error) {
       console.log("책을 저장하지 못했습니다. 오류코드 :", error);
@@ -59,7 +59,7 @@ function App() {
     const bookWithId = { ...newBook, id: nextId };
 
     try {
-      await axios.post("http://localhost:3001/books", bookWithId);
+      await axios.post("http://localhost:5000/books", bookWithId);
       setBooks(prevBooks => [...prevBooks, newBook]);
     } catch (error) {
       console.log("책을 추가하지 못했습니다. 오류코드 :", error);
@@ -74,7 +74,7 @@ function App() {
     }
 
     try {
-      await axios.delete(`http://localhost:3001/books/${id}`);
+      await axios.delete(`http://localhost:5000/books/${id}`);
       setBooks(prevBooks => prevBooks.filter(book => book.id !== id));
     } catch (error) {
       console.log("책을 제거하지 못했습니다. 오류코드 :", error);

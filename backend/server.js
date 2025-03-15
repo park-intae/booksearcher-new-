@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const cors = require("cors");
 
 const app = express();
@@ -11,8 +11,8 @@ app.use(express.json());
 const db = mysql.createConnection({
     host: process.env.DB_HOST || "localhost",
     user: process.env.DB_USER || "root",
-    password: process.env.DB_PASS || "",
-    database: process.env.DB_NAME || "booksearcher",
+    password: process.env.DB_PASS || "123456",
+    database: process.env.DB_NAME || "BookSearcher",
 });
 
 db.connect((err) => {
@@ -31,6 +31,23 @@ app.get("/books", async (req, res) => {
     });
 });
 
+app.put("/books/:id", (req, res) => {
+    const { id } = req.params;
+    const { title, author, publisher, stock } = req.body;
+
+    db.query(
+        "UPDATE books SET title = ?, author = ?, publisher = ?, stock = ? WHERE id = ?",
+        [title, author, publisher, stock, id],
+        (err, result) => {
+            if (err) return res.status(500).json({ error: err });
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ message: "Book not found" });
+            }
+            res.json({ id, title, author, publisher, stock });
+        }
+    )
+});
+
 app.post("/books", (req, res) => {
     const { title, author, publisher, stock } = req.body;
     db.query(
@@ -43,7 +60,22 @@ app.post("/books", (req, res) => {
     );
 })
 
+app.delete("/books/:id", (req, res) => {
+    const { id } = req.params;
+    db.query(
+        "DELETE FROM books WHERE id = ?",
+        [id],
+        (err, result) => {
+            if (err) return res.status(500).json({ error: err });
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ message: "Book not found" });
+            }
+            res.json({ message: "Book deleted" });
+        }
+    )
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log("Backend running on port 5000");
+    console.log("Backend running on port" + PORT);
 });
