@@ -8,13 +8,7 @@ import Search from './components/board/Search';
 
 function App() {
   //Dummyfile
-  const [books, setBooks] = useState<Book[]>([
-    // { id: 1, title: "책 1", author: ["작가 A"], publisher: "출판사 A", stock: 5 },
-    // { id: 2, title: "책 2", author: ["작가 B"], publisher: "출판사 B", stock: 2 },
-    // { id: 3, title: "책 3", author: ["작가 C"], publisher: "출판사 C", stock: 8 },
-    // { id: 4, title: "책 4", author: ["작가 D"], publisher: "출판사 D", stock: 7 },
-    // { id: 5, title: "책 5", author: ["작가 E"], publisher: "출판사 E", stock: 3 },
-  ])
+  const [books, setBooks] = useState<Book[]>([])
 
   //책 목록 가져오기
   useEffect(() => {
@@ -28,7 +22,6 @@ function App() {
     }
     fetchBooks();
   }, [])
-
 
   //Modal state management
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -74,7 +67,12 @@ function App() {
   }
 
   //Delete Book
-  const handleDeleteBook = async (id: number) => {
+  const handleDeleteBook = async (id: number | undefined) => {
+    if (id === undefined) {
+      console.log("책을 제거하지 못했습니다. id가 없습니다.");
+      return;
+    }
+
     try {
       await axios.delete(`http://localhost:3001/books/${id}`);
       setBooks(prevBooks => prevBooks.filter(book => book.id !== id));
@@ -107,7 +105,7 @@ function App() {
       <main>
         {/* 게시판 */}
         <div id='board'>
-          <BookList books={filteredBooks} openModal={openModal} />
+          <BookList books={filteredBooks} openModal={openModal} onDelete={handleDeleteBook} />
           {/* 검색, 추가 */}
           <Search onSearch={onSearch} />
           <button onClick={() => openModal('AddButton')}>추가</button>

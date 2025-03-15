@@ -1,13 +1,6 @@
 {
   "books": [
     {
-      "id": "1",
-      "title": "책1",
-      "author": "작가1",
-      "publisher": "출판사1",
-      "stock": 8
-    },
-    {
       "id": "2",
       "title": "책2",
       "author": "작가2",
@@ -36,15 +29,6 @@
       "stock": 6
     },
     {
-      "id": "6",
-      "title": "책11",
-      "author": [
-        "작가11"
-      ],
-      "publisher": "출판사11",
-      "stock": 11
-    },
-    {
       "id": "7",
       "title": "책7",
       "author": "작가7",
@@ -64,13 +48,6 @@
       "author": "작가9",
       "publisher": "출판사9",
       "stock": 7
-    },
-    {
-      "id": "10",
-      "title": "책10",
-      "author": "작가10",
-      "publisher": "출판사10",
-      "stock": 14
     },
     {
       "id": 6,

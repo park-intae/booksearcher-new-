@@ -12,7 +12,7 @@ const Modify: React.FC<ModifyProps> = ({ book, onClose, onSave }) => {
     const currentBook = book ?? defaultBook;
 
     const [title, setTitle] = useState(currentBook.title);
-    const [author, setAuthor] = useState(currentBook.author ? currentBook.author.join(",") : "");
+    const [author, setAuthor] = useState(Array.isArray(currentBook.author) ? currentBook.author.join(",") : currentBook.author);
     const [publisher, setPublisehr] = useState(currentBook.publisher);
     const [stock, setStock] = useState(currentBook.stock.toString());
 

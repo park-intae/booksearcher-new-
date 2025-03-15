@@ -7,9 +7,10 @@ import Pagination from './board/Pagination';
 interface BookListProps {
     books: Book[];
     openModal: (type: string, book?: Book) => void;
+    onDelete: (id: number) => void;
 }
 
-const BookList: React.FC<BookListProps> = ({ books, openModal }) => {
+const BookList: React.FC<BookListProps> = ({ books, openModal, onDelete }) => {
     const [currentPage, setCurrentPage] = React.useState(1);
     const booksPerPage = 5; // 페이지당 책 수
 
@@ -27,6 +28,16 @@ const BookList: React.FC<BookListProps> = ({ books, openModal }) => {
         { header: '작가', accessorKey: 'author' },
         { header: '출판사', accessorKey: 'publisher' },
         { header: '재고', accessorKey: 'stock' },
+        {
+            header: '삭제',
+            cell: ({ row }) => <button onClick={(e) => {
+                e.stopPropagation();
+                const id = row.original.id;
+                if (id !== undefined) {
+                    onDelete(id);
+                }
+            }}>삭제</button>
+        },
     ], []);
 
     const table = useReactTable({ data: sortedBooks, columns, getCoreRowModel: getCoreRowModel(), });
@@ -55,6 +66,15 @@ const BookList: React.FC<BookListProps> = ({ books, openModal }) => {
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                 </td>
                             ))}
+                            <td>
+                                <button onClick={(e) => {
+                                    e.stopPropagation();
+                                    const id = row.original.id;
+                                    if (id !== undefined) {
+                                        onDelete(id);
+                                    }
+                                }}>삭제</button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
