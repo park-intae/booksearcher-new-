@@ -16,19 +16,19 @@ function App() {
     // { id: 5, title: "책 5", author: ["작가 E"], publisher: "출판사 E", stock: 3 },
   ])
 
-  //useState
-  const [nextId, setNextId] = useState(6);
-
   //책 목록 가져오기
   useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const response = await axios.get("http://localhost:3001/books");
+        setBooks(response.data);
+      } catch (error) {
+        console.log("책 목록을 가져오지 못했습니다. 오류코드 :", error);
+      }
+    }
     fetchBooks();
   }, [])
 
-  const fetchBooks = () => {
-    axios.get("http://localhost:3001/books")
-      .then((response) => setBooks(response.data))
-      .catch((error) => console.log("Error fetching books :", error));
-  }
 
   //Modal state management
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -54,19 +54,33 @@ function App() {
       await axios.put(`http://localhost:3001/books/${updatedBook.id}`, updatedBook);
       setBooks(prevBooks => prevBooks.map(book => book.id === updatedBook.id ? updatedBook : book));
     } catch (error) {
-      console.log("Error updating book :", error);
+      console.log("책을 저장하지 못했습니다. 오류코드 :", error);
     }
   }
 
   //Add Book
-  const handleAddBook = (newBook: Book) => {
-    setBooks(prevBooks => [...prevBooks, newBook]);
-    setNextId(prevId => prevId + 1);
+  const handleAddBook = async (newBook: Book) => {
+    const nextId = books.length > 0
+      ? Math.max(...books.map(book => book.id ?? 0)) + 1 : 1;
+
+    const bookWithId = { ...newBook, id: nextId };
+
+    try {
+      await axios.post("http://localhost:3001/books", bookWithId);
+      setBooks(prevBooks => [...prevBooks, newBook]);
+    } catch (error) {
+      console.log("책을 추가하지 못했습니다. 오류코드 :", error);
+    }
   }
 
   //Delete Book
   const handleDeleteBook = async (id: number) => {
-
+    try {
+      await axios.delete(`http://localhost:3001/books/${id}`);
+      setBooks(prevBooks => prevBooks.filter(book => book.id !== id));
+    } catch (error) {
+      console.log("책을 제거하지 못했습니다. 오류코드 :", error);
+    }
   }
 
   //Search State Management
@@ -79,8 +93,10 @@ function App() {
     setSearchValue(keyword);
   }
   //Search filter
-  const filteredBooks = books.filter(book =>
-    book[searchKey]?.toString().toLowerCase().includes(searchValue.toLowerCase()));
+  const filteredBooks = searchValue.trim()
+    ? books.filter(book => book[searchKey]?.toString().toLowerCase().includes(searchValue.toLowerCase()))
+    : books;
+
 
   return (
     <div>
@@ -106,7 +122,6 @@ function App() {
           closeModal={closeModal}
           book={selectedBook}
           onSave={handleSaveBook}
-          nextId={nextId}
           onAdd={handleAddBook}
         />}
     </div>
