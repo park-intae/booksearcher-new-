@@ -59,11 +59,9 @@ function App() {
   // 책 추가 handle
   const handleAddBook = async (newBook: Book) => {
     const idKey = generateIdKey();
+    const id = books.length + 1;
 
-    const nextId = books.length > 0
-      ? Math.max(...books.map(book => book.id ?? 0)) + 1 : 1;
-
-    const bookWithId = { ...newBook, idKey, id: nextId };
+    const bookWithId = { ...newBook, idKey, id };
 
     try {
       const response = await axios.post("http://localhost:5000/books", bookWithId);
@@ -106,7 +104,7 @@ function App() {
   return (
     <div>
       <header>
-        {/* 로그인 버튼튼 */}
+        {/* 로그인 버튼 */}
         <button onClick={() => openModal('loginButton')}>login</button>
       </header>
       <main>

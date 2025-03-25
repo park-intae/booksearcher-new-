@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import type { Book } from "../../type/interface";
 
 interface AddProps {
@@ -16,6 +17,7 @@ const Add: React.FC<AddProps> = ({ onClose, onSave, onAdd }) => {
 
     const saveHandler = () => {
         const newBook: Book = {
+            idKey: uuidv4(),
             title,
             author: author ? author.split(",").map(name => name.trim()) : [],
             publisher,

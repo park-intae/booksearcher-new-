@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { Book } from "../../type/interface";
+import { v4 as uuidv4 } from "uuid";
 
 interface ModifyProps {
     book: Book | null;
@@ -8,7 +9,7 @@ interface ModifyProps {
 }
 
 const Modify: React.FC<ModifyProps> = ({ book, onClose, onSave }) => {
-    const defaultBook: Book = { id: 0, title: "", author: [], publisher: "", stock: 0 };
+    const defaultBook: Book = { id: 0, idKey: book?.idKey ?? uuidv4(), title: "", author: [], publisher: "", stock: 0 };
     const currentBook = book ?? defaultBook;
 
     const [title, setTitle] = useState(currentBook.title);
