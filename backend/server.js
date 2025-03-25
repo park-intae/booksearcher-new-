@@ -60,11 +60,11 @@ app.post("/books", (req, res) => {
     );
 })
 
-app.delete("/books/:id", (req, res) => {
-    const { id } = req.params;
+app.delete("/books/:idKey", (req, res) => {
+    const { idKey } = req.params;
     db.query(
-        "DELETE FROM books WHERE id = ?",
-        [id],
+        "DELETE FROM books WHERE idKey = ?",
+        [idKey],
         (err, result) => {
             if (err) return res.status(500).json({ error: err });
             if (result.affectedRows === 0) {

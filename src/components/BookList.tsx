@@ -7,7 +7,7 @@ import Pagination from './board/Pagination';
 interface BookListProps {
     books: Book[];
     openModal: (type: string, book?: Book) => void;
-    onDelete: (id: number) => void;
+    onDelete: (idKey: string) => void;
 }
 
 const BookList: React.FC<BookListProps> = ({ books, openModal, onDelete }) => {
@@ -30,13 +30,17 @@ const BookList: React.FC<BookListProps> = ({ books, openModal, onDelete }) => {
         { header: '재고', accessorKey: 'stock' },
         {
             header: '삭제',
-            cell: ({ row }) => <button onClick={(e) => {
-                e.stopPropagation();
-                const id = row.original.id;
-                if (id !== undefined) {
-                    onDelete(id);
-                }
-            }}>삭제</button>
+            cell: ({ row }) => {
+                const idKey = row.original.idKey;
+                return (
+                    <button onClick={(e) => {
+                        e.stopPropagation();
+                        if (idKey !== undefined) {
+                            onDelete(idKey);
+                        }
+                    }}>삭제</button>
+                )
+            }
         },
     ], [onDelete]);
 

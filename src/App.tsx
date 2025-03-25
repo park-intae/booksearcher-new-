@@ -7,7 +7,6 @@ import type { Book } from './type/interface';
 import Search from './components/board/Search';
 
 function App() {
-  //Dummyfile
   const [books, setBooks] = useState<Book[]>([])
 
   //책 목록 가져오기
@@ -44,22 +43,30 @@ function App() {
   //Save Book
   const handleSaveBook = async (updatedBook: Book) => {
     try {
-      await axios.put(`http://localhost:5000/books/${updatedBook.id}`, updatedBook);
-      setBooks(prevBooks => prevBooks.map(book => book.id === updatedBook.id ? updatedBook : book));
+      await axios.put(`http://localhost:5000/books/${updatedBook.idKey}`, updatedBook);
+      setBooks(prevBooks => prevBooks.map(book => book.idKey === updatedBook.idKey ? updatedBook : book));
+      closeModal();
     } catch (error) {
       console.log("책을 저장하지 못했습니다. 오류코드 :", error);
     }
   }
 
   //Add Book
+  // 랜덤 idKey 생성
+  const generateIdKey = () => {
+    return Math.random().toString(36).substring(2, 9);
+  };
+  // 책 추가 handle
   const handleAddBook = async (newBook: Book) => {
+    const idKey = generateIdKey();
+
     const nextId = books.length > 0
       ? Math.max(...books.map(book => book.id ?? 0)) + 1 : 1;
 
-    const bookWithId = { ...newBook, id: nextId };
+    const bookWithId = { ...newBook, idKey, id: nextId };
 
     try {
-      await axios.post("http://localhost:5000/books", bookWithId);
+      const response = await axios.post("http://localhost:5000/books", bookWithId);
       setBooks(prevBooks => [...prevBooks, newBook]);
     } catch (error) {
       console.log("책을 추가하지 못했습니다. 오류코드 :", error);
@@ -67,15 +74,15 @@ function App() {
   }
 
   //Delete Book
-  const handleDeleteBook = async (id: number | undefined) => {
-    if (id === undefined) {
+  const handleDeleteBook = async (idKey: string) => {
+    if (idKey === undefined) {
       console.log("책을 제거하지 못했습니다. id가 없습니다.");
       return;
     }
 
     try {
-      await axios.delete(`http://localhost:5000/books/${id}`);
-      setBooks(prevBooks => prevBooks.filter(book => book.id !== id));
+      await axios.delete(`http://localhost:5000/books/${idKey}`);
+      setBooks(prevBooks => prevBooks.filter(book => book.idKey !== idKey));
     } catch (error) {
       console.log("책을 제거하지 못했습니다. 오류코드 :", error);
     }
