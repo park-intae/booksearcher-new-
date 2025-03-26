@@ -42,7 +42,15 @@ function App() {
 
   //Save Book
   const handleSaveBook = async (updatedBook: Book) => {
+    console.log("수정할 책 정보:", updatedBook);
+    console.log("idKey 값 확인:", updatedBook.idKey);
+    if (!updatedBook.idKey) {
+      console.error("❌ idKey가 없습니다! 책을 수정할 수 없습니다.");
+      return;
+    }
+
     try {
+      console.log("Updating book with ID:", updatedBook.idKey);
       await axios.put(`http://localhost:5000/books/${updatedBook.idKey}`, updatedBook);
       setBooks(prevBooks => prevBooks.map(book => book.idKey === updatedBook.idKey ? updatedBook : book));
       closeModal();
@@ -64,7 +72,7 @@ function App() {
     const bookWithId = { ...newBook, idKey, id };
 
     try {
-      const response = await axios.post("http://localhost:5000/books", bookWithId);
+      await axios.post("http://localhost:5000/books", bookWithId);
       setBooks(prevBooks => [...prevBooks, newBook]);
     } catch (error) {
       console.log("책을 추가하지 못했습니다. 오류코드 :", error);

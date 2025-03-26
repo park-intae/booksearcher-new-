@@ -23,6 +23,8 @@ const Add: React.FC<AddProps> = ({ onClose, onSave, onAdd }) => {
             publisher,
             stock: parseInt(stock, 10),
         };
+
+        console.log("저장할 책 정보:", newBook);
         onAdd(newBook);
         onSave(newBook);
         onClose();
