@@ -111,17 +111,24 @@ function App() {
 
   return (
     <div>
-      <header>
+      <header className="flex justify-end">
         {/* 로그인 버튼 */}
-        <button onClick={() => openModal('loginButton')}>login</button>
+        <button
+          className='text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-3 py-1.5 me-2 mb-2'
+          onClick={() => openModal('loginButton')
+          }>login</button>
       </header>
       <main>
-        {/* 게시판 */}
-        <div id='board'>
-          <BookList books={filteredBooks} openModal={openModal} onDelete={handleDeleteBook} />
-          {/* 검색, 추가 */}
-          <Search onSearch={onSearch} />
-          <button onClick={() => openModal('AddButton')}>추가</button>
+        <div className='ml-9'>
+          {/* 게시판 */}
+          <div id='board'>
+            <BookList books={filteredBooks} openModal={openModal} onDelete={handleDeleteBook} />
+            {/* 검색, 추가 */}
+            <div className='flex'>
+              <Search onSearch={onSearch} />
+              <button className="ml-auto mr-20 mt-2.5 border h-full px-2 py-1 rounded-md hover:bg-gray-300" onClick={() => openModal('AddButton')}>추가</button>
+            </div>
+          </div>
         </div>
       </main>
       {/* 모달 */}

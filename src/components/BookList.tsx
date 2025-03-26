@@ -53,13 +53,14 @@ const BookList: React.FC<BookListProps> = ({ books, openModal, onDelete }) => {
     const table = useReactTable({ data: paginatedBooks, columns, getCoreRowModel: getCoreRowModel(), });
 
     return (
-        <div id='booklist'>
-            <table className='table-fixer border'>
+        <div id='booklist' className='w-10/12'>
+            <h2 className='text-left text-lg'>도서 목록</h2>
+            <table className='w-full text-center table-fixer border ml-7'>
                 <thead>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <tr key={headerGroup.id}>
                             {headerGroup.headers.map(columns => (
-                                <th className="p-2 border-b" key={columns.id}>
+                                <th className="p-2 border-b bg-gray-300" key={columns.id}>
                                     {flexRender(columns.column.columnDef.header, columns.getContext())}
                                 </th>
                             ))}
@@ -68,11 +69,11 @@ const BookList: React.FC<BookListProps> = ({ books, openModal, onDelete }) => {
                 </thead>
                 <tbody>
                     {table.getRowModel().rows.map(row => (
-                        <tr className='text-center' key={row.id} onClick={() => {
+                        <tr className='text-center border-b' key={row.id} onClick={() => {
                             openModal('bookContents', row.original);
                         }}>
                             {row.getVisibleCells().map(cell => (
-                                <td key={cell.id}>
+                                <td className='pt-1 pb-1' key={cell.id}>
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                 </td>
                             ))}
