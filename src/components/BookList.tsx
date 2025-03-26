@@ -44,7 +44,13 @@ const BookList: React.FC<BookListProps> = ({ books, openModal, onDelete }) => {
         },
     ], [onDelete]);
 
-    const table = useReactTable({ data: sortedBooks, columns, getCoreRowModel: getCoreRowModel(), });
+    const paginatedBooks = React.useMemo(() => {
+        const startIndex = (currentPage - 1) * booksPerPage;
+        const endIndex = startIndex + booksPerPage;
+        return sortedBooks.slice(startIndex, endIndex);
+    }, [currentPage, sortedBooks, booksPerPage]);
+
+    const table = useReactTable({ data: paginatedBooks, columns, getCoreRowModel: getCoreRowModel(), });
 
     return (
         <div id='booklist'>
