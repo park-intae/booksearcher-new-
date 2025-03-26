@@ -54,12 +54,12 @@ const BookList: React.FC<BookListProps> = ({ books, openModal, onDelete }) => {
 
     return (
         <div id='booklist'>
-            <table>
+            <table className='table-fixer border'>
                 <thead>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <tr key={headerGroup.id}>
                             {headerGroup.headers.map(columns => (
-                                <th key={columns.id}>
+                                <th className="p-2 border-b" key={columns.id}>
                                     {flexRender(columns.column.columnDef.header, columns.getContext())}
                                 </th>
                             ))}
@@ -68,7 +68,7 @@ const BookList: React.FC<BookListProps> = ({ books, openModal, onDelete }) => {
                 </thead>
                 <tbody>
                     {table.getRowModel().rows.map(row => (
-                        <tr key={row.id} onClick={() => {
+                        <tr className='text-center' key={row.id} onClick={() => {
                             openModal('bookContents', row.original);
                         }}>
                             {row.getVisibleCells().map(cell => (
