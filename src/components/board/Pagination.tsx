@@ -16,9 +16,22 @@ const Pagination: React.FC<PaginationProps> = ({ totalBooks, booksPerPages, curr
                     onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
                     이전
                 </button>
-                {Array.from({ length: wholePages }, (_, i) => (
+                {/* {Array.from({ length: wholePages }, (_, i) => (
                     <span className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0" key={i + 1} onClick={() => paginate(i + 1)}> {i + 1} </span>
-                ))}
+                ))} */}
+                {Array.from({ length: wholePages }, (_, i) => {
+                    const pageNumber = i + 1;
+                    return (
+                        <button
+                            key={pageNumber}
+                            onClick={() => paginate(pageNumber)}
+                            className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ring-1 ring-gray-300 ring-inset focus:z-20 focus:outline-offset-0 
+                                ${currentPage === pageNumber ? "bg-blue-500 text-white" : "text-gray-900 hover:bg-gray-50"}`}
+                        >
+                            {pageNumber}
+                        </button>
+                    );
+                })}
                 <button
                     className="elative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                     onClick={() => paginate(currentPage + 1)} disabled={currentPage === wholePages}>다음</button>

@@ -111,7 +111,7 @@ function App() {
 
   return (
     <div className='w-[90vw] m-auto'>
-      <header className="flex justify-end">
+      <header className="mt-5 flex justify-end">
         {/* 로그인 버튼 */}
         <button
           className='text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-3 py-1.5 me-2 mb-2'
@@ -119,7 +119,7 @@ function App() {
           }>login</button>
       </header>
       <main>
-        <div className='ml-9'>
+        <div className='mt-5 ml-9'>
           {/* 게시판 */}
           <div id='board'>
             <BookList books={filteredBooks} openModal={openModal} onDelete={handleDeleteBook} />
