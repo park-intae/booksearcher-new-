@@ -12,7 +12,7 @@ interface BookListProps {
 
 const BookList: React.FC<BookListProps> = ({ books, openModal, onDelete }) => {
     const [currentPage, setCurrentPage] = React.useState(1);
-    const booksPerPage = 5; // 페이지당 책 수
+    const booksPerPage = 10; // 페이지당 책 수
 
     const sortedBooks = React.useMemo(() => {
         return [...books].sort((a, b) => {
@@ -53,9 +53,10 @@ const BookList: React.FC<BookListProps> = ({ books, openModal, onDelete }) => {
     const table = useReactTable({ data: paginatedBooks, columns, getCoreRowModel: getCoreRowModel(), });
 
     return (
-        <div id='booklist' className='w-10/12'>
-            <h2 className='text-left text-lg'>도서 목록</h2>
-            <table className='w-full text-center table-fixer border ml-7'>
+        <div id='booklist' className='w-11/12'>
+            <h2 className='text-left text-lg mb-5'>도서 목록</h2>
+            <table className='w-full text-center table-fixer border ml-7 mb-3'>
+                {/* 표 항목 */}
                 <thead>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <tr key={headerGroup.id}>
@@ -67,6 +68,7 @@ const BookList: React.FC<BookListProps> = ({ books, openModal, onDelete }) => {
                         </tr>
                     ))}
                 </thead>
+                {/* 표 내용 */}
                 <tbody>
                     {table.getRowModel().rows.map(row => (
                         <tr className='text-center border-b' key={row.id} onClick={() => {

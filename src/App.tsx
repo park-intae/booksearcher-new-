@@ -110,7 +110,7 @@ function App() {
 
 
   return (
-    <div>
+    <div className='w-[90vw] m-auto'>
       <header className="flex justify-end">
         {/* 로그인 버튼 */}
         <button
